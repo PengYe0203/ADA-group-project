@@ -91,3 +91,16 @@ def predict_logistic(
     X = X.reindex(columns=feature_names, fill_value=0)
     X_scaled = scaler.transform(X)
     return model.predict(X_scaled)
+
+
+def predict_logistic_proba(
+    model: LogisticRegression,
+    scaler: StandardScaler,
+    X: pd.DataFrame,
+    feature_names: list[str],
+) -> np.ndarray:
+    """Predict P(class=1), i.e. P(rain) for the positive class."""
+    X = X[feature_names].copy()
+    X = X.reindex(columns=feature_names, fill_value=0)
+    X_scaled = scaler.transform(X)
+    return model.predict_proba(X_scaled)[:, 1]
